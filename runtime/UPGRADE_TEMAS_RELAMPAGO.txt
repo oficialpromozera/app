@@ -1,0 +1,42 @@
+UPGRADE: TEMAS + GERAR PRODUTOS AUTOMÁTICOS
+
+Mantido tudo que já existia no projeto:
+- Plataformas atuais
+- WhatsApp Cloud API
+- Fila persistente
+- Produtos enviados
+- Telegram
+- Pinterest manual
+- Configurações por usuário
+
+Novidades adicionadas:
+
+1) Aba Templates / Temas
+- Mais de 20 temas completos já disponíveis.
+- Cada tema altera cores, estilo visual, botões, cards e animações.
+- Alguns temas têm estilos especiais: Cyber, Matrix, Fire, WhatsApp, Telegram, Pinterest, Amazon Dark, Gold Black, Ice, Candy etc.
+- Sons de clique/sucesso/salvar variam conforme o tema selecionado.
+- O tema continua salvo no navegador pelo localStorage.
+
+2) Nova aba Gerar produtos automáticos
+- Botão lateral: ⚡ Gerar produtos automáticos.
+- Busca produtos da página de promoções relâmpago do Mercado Livre:
+  https://www.mercadolivre.com.br/ofertas?promotion_type=lightning
+- Os produtos são carregados em cards próprios.
+- Cada produto recebe copy especial avisando:
+  PROMOÇÃO RELÂMPAGO
+  pode acabar em poucas horas
+  estoque pode acabar
+
+3) Envio automático relâmpago
+- A aba possui intervalo em minutos.
+- Pode enviar para Telegram, WhatsApp API ou os dois.
+- O botão Iniciar automático adiciona os produtos relâmpago à fila persistente e usa o motor de envio já existente.
+- Após envio, os produtos são movidos para Produtos enviados.
+- Como usa a fila existente, os itens não somem ao recarregar a página.
+
+4) Compatibilidade
+- Nenhuma função antiga foi removida.
+- A rota normal de catálogo do Mercado Livre continua funcionando.
+- Foi adicionado suporte ao parâmetro source=relampago na rota:
+  /api/mercadolivre/catalogo?source=relampago

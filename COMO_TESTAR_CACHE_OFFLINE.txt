@@ -1,0 +1,15 @@
+UPGRADE CACHE OFFLINE DO AGENT
+
+Regra nova:
+- Se o Agent ativar uma licença válida online uma vez, ele salva a validade localmente.
+- Se depois o painel Admin, túnel ou internet do Admin cair, o Agent continua liberado até a licença expirar.
+- Quando o Admin voltar, o Agent volta a sincronizar normalmente.
+- Se no Admin a licença estiver bloqueada, apagada ou expirada quando voltar a conexão, o Agent bloqueia novamente.
+
+Teste rápido:
+1. Abra o Admin e crie uma licença válida.
+2. Abra o Agent, cole a licença e ative.
+3. Feche o Admin ou o tunnel.
+4. O Agent deve continuar acessando o painel.
+5. Abra o Admin/tunnel novamente.
+6. O Agent volta a verificar a licença automaticamente.

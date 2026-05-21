@@ -1,0 +1,16 @@
+ADMIN:
+1. npm install
+2. npm start
+3. Abra http://localhost:3001
+4. Crie sua conta normalmente.
+5. Entre na aba "Venda de Licenças".
+6. Crie uma licença e copie a chave.
+
+AGENT:
+1. npm install
+2. npm start
+3. Abra http://localhost:3000
+4. Cole a licença criada no Admin.
+5. Faça login/registro no painel do Agent.
+
+Observação: o Agent consulta o Admin a cada 5 segundos. Se bloquear, apagar, expirar ou desligar o Admin, o Agent bloqueia o painel.

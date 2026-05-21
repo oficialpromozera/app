@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Entrar - Afiliado Pro</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="auth-page">
+  <div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+  <main class="auth-card glass">
+    <div class="brand"><div class="logo">⚡</div><div><strong>Afiliado Pro</strong><span>Login seguro</span></div></div>
+    <p class="kicker">Acesse sua conta</p>
+    <h1>Entrar no painel</h1>
+    <p class="subtitle">Use seu e-mail e senha para carregar suas configurações salvas no banco local.</p>
+    <form id="loginForm" class="auth-form">
+      <label>E-mail<input name="email" type="email" placeholder="seu@email.com" autocomplete="email" required /></label>
+      <label>Senha<input name="password" type="password" placeholder="Sua senha" autocomplete="current-password" required /></label>
+      <button class="primary" type="submit">Entrar</button>
+    </form>
+    <div id="authError" class="auth-error"></div>
+    <p class="auth-link">Ainda não tem conta? <a href="/register.html">Criar conta grátis</a></p>
+  </main>
+  <script src="/auth.js"></script>
+</body>
+</html>

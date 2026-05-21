@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Extração de coockie do ML</title>
+  <style>
+    :root{--bg:#080b16;--card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.15);--text:#f7fbff;--muted:#9aa8c7;--accent:#00e5ff;--accent2:#7c3cff}*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top left,#17204a,#080b16 55%,#05060b);padding:28px}.wrap{max-width:1100px;margin:auto}.hero{padding:28px;border:1px solid var(--stroke);border-radius:28px;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.05));box-shadow:0 20px 60px rgba(0,0,0,.35);margin-bottom:18px}.kicker{color:var(--accent);font-size:12px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:42px;margin:8px 0}.hero p,.hint{color:var(--muted);line-height:1.55}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{padding:20px;border:1px solid var(--stroke);border-radius:24px;background:var(--card);backdrop-filter:blur(14px)}textarea,input{width:100%;border:1px solid var(--stroke);border-radius:18px;background:rgba(0,0,0,.28);color:#fff;padding:14px;outline:none}textarea{min-height:360px;resize:vertical;line-height:1.45}.field{display:grid;gap:8px;margin:12px 0}.field label{font-weight:900;color:#dce7ff;font-size:13px}button,a.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:16px;padding:13px 16px;background:linear-gradient(135deg,var(--accent2),#4f8cff);color:#fff;font-weight:900;text-decoration:none;cursor:pointer;margin:8px 8px 0 0}.ghost{background:rgba(255,255,255,.09)!important;border:1px solid var(--stroke)!important}.ok{color:#3dffab}.warn{color:#ffcf4a}@media(max-width:900px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="kicker">Ferramenta local</div>
+      <h1>Extração de coockie do ML</h1>
+      <p>Cole aqui o cURL copiado do navegador/F12 do Mercado Livre. A página tenta extrair automaticamente <b>Cookie</b> e <b>x-csrf-token</b> para você copiar e colar nas configurações do painel.</p>
+      <a class="btn ghost" href="/">← Voltar ao painel</a>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>1. Cole o cURL</h2>
+        <textarea id="curlInput" placeholder="Cole aqui o comando cURL completo do Mercado Livre..."></textarea>
+        <button id="extractBtn">Extrair Cookie e CSRF</button>
+        <button id="clearBtn" class="ghost">Limpar</button>
+        <p class="hint">Dica: no F12, vá em Network/Rede, clique em uma requisição do Mercado Livre, botão direito e copie como cURL.</p>
+      </div>
+
+      <div class="card">
+        <h2>2. Resultado</h2>
+        <div class="field">
+          <label>ML_COOKIE</label>
+          <textarea id="cookieOut" style="min-height:170px" readonly></textarea>
+          <button data-copy="cookieOut">Copiar Cookie</button>
+        </div>
+        <div class="field">
+          <label>ML_CSRF_TOKEN</label>
+          <input id="csrfOut" readonly />
+          <button data-copy="csrfOut">Copiar CSRF Token</button>
+        </div>
+        <p id="status" class="hint">Aguardando cURL.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    function unquote(v='') {
+      return String(v).trim().replace(/^[$]?['"]|['"]$/g, '').replace(/\\'/g, "'").replace(/\\"/g, '"');
+    }
+    function extractHeader(curl, names) {
+      for (const name of names) {
+        const re = new RegExp("(?:-H|--header)\\s+(['\"])([^'\"]*" + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "\\s*:\\s*[^'\"]+)\\1", 'i');
+        const m = curl.match(re);
+        if (m) return m[2].replace(new RegExp('^' + name + '\\s*:\\s*', 'i'), '').trim();
+      }
+      return '';
+    }
+    function extractCookieFlag(curl) {
+      const m = curl.match(/(?:-b|--cookie)\s+(['"])([\s\S]*?)\1/i);
+      return m ? m[2].trim() : '';
+    }
+    function extractCookieFromText(curl) {
+      return extractHeader(curl, ['cookie']) || extractCookieFlag(curl);
+    }
+    function extractCsrfFromText(curl, cookie) {
+      const header = extractHeader(curl, ['x-csrf-token','x-csrftoken','csrf-token']);
+      if (header) return header;
+      const m = String(cookie || curl).match(/(?:^|;\s*)(?:_csrf|csrf|csrf_token|csrftoken|x-csrf-token)=([^;\s]+)/i);
+      return m ? decodeURIComponent(m[1]) : '';
+    }
+    $('extractBtn').onclick = () => {
+      const curl = $('curlInput').value;
+      const cookie = extractCookieFromText(curl);
+      const csrf = extractCsrfFromText(curl, cookie);
+      $('cookieOut').value = cookie;
+      $('csrfOut').value = csrf;
+      $('status').innerHTML = cookie ? '<span class="ok">Cookie encontrado.</span> ' + (csrf ? '<span class="ok">CSRF encontrado.</span>' : '<span class="warn">CSRF não encontrado no cURL.</span>') : '<span class="warn">Nenhum cookie encontrado. Confira se o cURL contém header Cookie.</span>';
+    };
+    $('clearBtn').onclick = () => { $('curlInput').value=''; $('cookieOut').value=''; $('csrfOut').value=''; $('status').textContent='Aguardando cURL.'; };
+    document.querySelectorAll('[data-copy]').forEach(btn => btn.onclick = async () => {
+      const el = $(btn.dataset.copy);
+      await navigator.clipboard.writeText(el.value || '');
+      $('status').innerHTML = '<span class="ok">Copiado.</span>';
+    });
+  </script>
+</body>
+</html>

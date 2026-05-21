@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painel Afiliado MultiPlataforma Pro</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">⚡</div><div><strong>Afiliado Pro</strong><span>MultiPlataforma 100/100</span></div></div>
+    <div class="user-box"><span id="userName">Conta</span><button id="logoutBtn" type="button">Sair</button></div>
+    <nav id="platformNav"></nav>
+    <a href="/extracao-cookie-ml" target="_blank" class="nav-btn cookie-nav">🍪 Extração do ML</a>
+    <button id="queueNav" class="nav-btn queue-nav">🧾 Fila de promoções</button>
+    <button id="autoNav" class="nav-btn auto-nav">⚡ Gerar produtos automáticos</button>
+    <button id="sentNav" class="nav-btn sent-nav">✅ Produtos enviados</button>
+    <button id="templatesNav" class="nav-btn templates-nav">🎨 Templates / Temas</button>
+    <button id="settingsNav" class="nav-btn settings-nav">⚙️ Configurações</button>
+    <div class="side-card"><b>Status</b><p id="status">Pronto para buscar ofertas.</p></div>
+  </aside>
+  <main class="main">
+    <header class="hero glass">
+      <div>
+        <p class="kicker">Painel profissional de ofertas</p>
+        <h1 id="pageTitle">Mercado Livre</h1>
+        <p class="subtitle">Busque produtos, gere copy agressiva e envie para Telegram, WhatsApp ou Pinterest com um painel redesenhado, animado e personalizável.</p>
+      </div>
+      <div class="hero-stats">
+        <div><b id="totalProducts">0</b><span>Produtos</span></div>
+        <div><b id="platformName">ML</b><span>Plataforma</span></div>
+        <div><b id="mlPagesDetected">-</b><span>Páginas ML</span></div>
+      </div>
+    </header>
+
+    <section class="toolbar glass">
+      <div class="input-wrap"><span>🔎</span><input id="searchInput" placeholder="Pesquisar produto, categoria ou oferta..." /></div>
+      <select id="limitSelect"><option value="40">40 produtos</option><option value="80" selected>80 produtos</option><option value="150">150 produtos</option><option value="300">300 produtos</option></select>
+      <button id="searchBtn" class="primary">Buscar</button>
+      <button id="loadOffersBtn">Ofertas</button>
+      <button id="load20Btn" class="gold">20 páginas ML</button>
+    </section>
+
+    <section id="manualLinkPanel" class="manual-link glass hidden">
+      <div>
+        <p class="kicker">Link manual afiliado</p>
+        <h2>Inserir link do produto</h2>
+        <p class="subtitle">Para esta plataforma o catálogo automático fica desativado. Cole o link do produto para converter em afiliado e gerar o post normalmente.</p>
+      </div>
+      <div class="manual-row">
+        <div class="input-wrap"><span>🔗</span><input id="manualProductLink" placeholder="Cole aqui o link do produto..." /></div>
+        <button id="manualLinkBtn" class="primary">Converter e gerar card</button>
+      </div>
+    </section>
+
+    <section class="filters">
+      <button class="chip active" data-filter="all">Todos</button>
+      <button class="chip" data-filter="discount">Com desconto</button>
+      <button class="chip" data-filter="cheap">Mais baratos</button>
+      <button class="chip" data-filter="expensive">Mais caros</button>
+    </section>
+
+    <section id="grid" class="grid"></section>
+
+    <section id="mlPagination" class="ml-pagination glass hidden"></section>
+
+    <section id="settingsPage" class="settings-page hidden">
+      <div class="settings-head glass">
+        <div>
+          <p class="kicker">Configuração central</p>
+          <h2>Configurações da sua conta</h2>
+          <p class="subtitle">Cada usuário salva seus próprios cookies, tokens e dados no banco local. O .env fica apenas para configurações globais do servidor.</p>
+        </div>
+        <button id="saveEnvBtn" class="primary">Salvar configurações</button>
+      </div>
+      <div id="envForms" class="settings-grid"></div>
+    </section>
+
+    <section id="templatesPage" class="templates-page hidden">
+      <div class="templates-head glass">
+        <div>
+          <p class="kicker">Central visual</p>
+          <h2>Templates e temas do painel</h2>
+          <p class="subtitle">Escolha entre mais de 20 estilos visuais. O tema fica salvo neste navegador e será aplicado automaticamente na próxima vez que você abrir o painel.</p>
+        </div>
+        <button id="saveThemeBtn" class="primary">Salvar tema selecionado</button>
+      </div>
+      <div id="templateGrid" class="template-grid"></div>
+    </section>
+
+
+    <section id="queuePage" class="queue-page hidden">
+      <div class="settings-head glass">
+        <div>
+          <p class="kicker">Envio programado</p>
+          <h2>Fila de promoções</h2>
+          <p class="subtitle">Produtos adicionados aqui ficam salvos no banco local. Eles só saem da fila quando forem enviados e movidos para Produtos enviados.</p>
+        </div>
+        <div class="queue-controls">
+          <label><span>Intervalo</span><input id="queueInterval" type="number" min="1" value="5" /> min</label>
+          <label><input id="queueTelegram" type="checkbox" checked /> Telegram</label>
+          <label><input id="queueWhatsApp" type="checkbox" checked /> WhatsApp API</label>
+          <button id="sendNextQueueBtn" class="primary">Enviar próximo agora</button>
+          <button id="startQueueBtn" class="gold">Iniciar automático</button>
+          <button id="stopQueueBtn">Pausar</button>
+        </div>
+      </div>
+      <div class="queue-summary glass"><b id="queueCount">0</b><span>produtos aguardando</span><em id="queueAutoStatus">Automático desligado.</em></div>
+      <div id="queueList" class="queue-list"></div>
+    </section>
+
+    <section id="autoPage" class="queue-page auto-page hidden">
+      <div class="settings-head glass">
+        <div>
+          <p class="kicker">Mercado Livre Relâmpago</p>
+          <h2>Gerar produtos automáticos</h2>
+          <p class="subtitle">Busca promoções relâmpago do Mercado Livre, gera copy especial avisando que pode acabar em poucas horas e envia para Telegram/WhatsApp no intervalo escolhido.</p>
+        </div>
+        <div class="queue-controls">
+          <label><span>Intervalo</span><input id="autoInterval" type="number" min="1" value="5" /> min</label>
+          <label><input id="autoTelegram" type="checkbox" checked /> Telegram</label>
+          <label><input id="autoWhatsApp" type="checkbox" checked /> WhatsApp API</label>
+          <button id="autoFetchBtn" class="primary">Buscar relâmpagos</button>
+          <button id="autoQueueAllBtn" class="gold">Adicionar todos à fila</button>
+          <button id="autoStartBtn" class="gold">Iniciar automático</button>
+          <button id="autoStopBtn">Pausar</button>
+        </div>
+      </div>
+      <div class="queue-summary glass"><b id="autoCount">0</b><span>relâmpagos carregados</span><em id="autoStatus">Automático desligado.</em></div>
+      <div class="auto-alert glass">⚡ As copies desta aba incluem aviso de <b>Promoção Relâmpago</b> e urgência: pode acabar em poucas horas.</div>
+      <div id="autoGrid" class="grid"></div>
+    </section>
+
+    <section id="sentPage" class="queue-page hidden">
+      <div class="settings-head glass">
+        <div>
+          <p class="kicker">Histórico</p>
+          <h2>Produtos enviados</h2>
+          <p class="subtitle">Aqui ficam as promoções que já foram enviadas pela fila automática ou pelo botão Enviar próximo.</p>
+        </div>
+      </div>
+      <div id="sentList" class="queue-list"></div>
+    </section>
+
+
+
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card glass">
+      <button id="closeModal" class="close">×</button>
+      <h2>Copy gerada</h2>
+      <textarea id="copyText"></textarea>
+      <div class="modal-actions">
+        <button id="copyClipboard" class="primary">Copiar</button>
+        <button id="sendTelegram">Telegram</button>
+        <button id="sendPinterest">Pinterest</button>
+        <button id="sendWhatsApp">WhatsApp API</button>
+        <a id="openWhats" target="_blank" class="btn">WhatsApp manual</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

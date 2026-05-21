@@ -1,0 +1,25 @@
+{
+  "key": "LIC-E8AD28-FE2AC0-6207E5",
+  "status": "blocked",
+  "ok": false,
+  "online": true,
+  "offlineGrace": false,
+  "message": "Licença bloqueada.",
+  "adminServer": "https://alexandre.tail70051e.ts.net",
+  "license": {
+    "id": 1,
+    "key": "LIC-E8AD28-FE2AC0-6207E5",
+    "clientName": "teste",
+    "status": "blocked",
+    "blocked": true,
+    "expiresAt": "2026-05-22T02:21:00.000Z",
+    "createdAt": "2026-05-21T00:01:32.359Z",
+    "updatedAt": "2026-05-21T02:36:18.313Z",
+    "lastCheckAt": "2026-05-21T02:36:18.313Z",
+    "lastIp": "100.100.101.1",
+    "agentId": "5a12333a35d4346f48d506828a5806e1",
+    "online": true
+  },
+  "expiresAt": "2026-05-22T02:21:00.000Z",
+  "lastCheckAt": "2026-05-21T02:36:18.315Z"
+}

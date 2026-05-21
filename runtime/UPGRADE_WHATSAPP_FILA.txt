@@ -1,0 +1,38 @@
+UPGRADES IMPLEMENTADOS
+
+1) WhatsApp Cloud API no painel
+- Novas configurações salvas por usuário:
+  WHATSAPP_PHONE_NUMBER_ID
+  WHATSAPP_ACCESS_TOKEN
+  WHATSAPP_TO
+  WHATSAPP_TEMPLATE_NAME
+  WHATSAPP_TEMPLATE_LANGUAGE
+
+2) Envio para WhatsApp via API
+- Botões de WhatsApp agora chamam /api/whatsapp/send.
+- Primeiro tenta enviar imagem com legenda/copy.
+- Se a Meta recusar mensagem livre por janela/autorizações, tenta fallback com template aprovado.
+- O template padrão esperado é oferta_produto, idioma pt_BR.
+- O template recomendado precisa ter variáveis no corpo nesta ordem:
+  {{1}} título do produto
+  {{2}} preço
+  {{3}} link
+- Se usar imagem no cabeçalho do template, aprove o template como mídia/imagem.
+
+3) Fila persistente
+- Cada card ganhou botão Adicionar à fila.
+- A fila é salva em data/database.json na chave promo_queue.
+- Reiniciar página ou painel não apaga a fila.
+- Produto enviado sai da fila e vai para sent_products.
+
+4) Aba Produtos enviados
+- Exibe promoções já enviadas pela fila.
+
+5) Envio programado
+- Aba Fila de promoções permite escolher intervalo em minutos.
+- Pode enviar para Telegram, WhatsApp ou os dois.
+- O automático roda enquanto o painel estiver aberto.
+- A fila continua salva mesmo se fechar/reiniciar.
+
+OBSERVAÇÃO IMPORTANTE META
+Para envio ativo fora da janela de 24h, a Meta exige template aprovado. Configure WHATSAPP_TEMPLATE_NAME e WHATSAPP_TEMPLATE_LANGUAGE com um template já aprovado no seu WhatsApp Business Manager.

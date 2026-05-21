@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Criar conta - Afiliado Pro</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="auth-page">
+  <div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+  <main class="auth-card glass">
+    <div class="brand"><div class="logo">⚡</div><div><strong>Afiliado Pro</strong><span>Registro seguro</span></div></div>
+    <p class="kicker">Nova conta</p>
+    <h1>Criar acesso</h1>
+    <p class="subtitle">Cada conta terá seus próprios cookies, tokens, tag de afiliado e configurações.</p>
+    <form id="registerForm" class="auth-form">
+      <label>Nome<input name="name" type="text" placeholder="Seu nome" autocomplete="name" required /></label>
+      <label>E-mail<input name="email" type="email" placeholder="seu@email.com" autocomplete="email" required /></label>
+      <label>Senha<input name="password" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" required /></label>
+      <button class="primary" type="submit">Criar conta</button>
+    </form>
+    <div id="authError" class="auth-error"></div>
+    <p class="auth-link">Já tem conta? <a href="/login.html">Entrar agora</a></p>
+  </main>
+  <script src="/auth.js"></script>
+</body>
+</html>
